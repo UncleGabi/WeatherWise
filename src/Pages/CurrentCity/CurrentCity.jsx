@@ -44,7 +44,10 @@ function CurrentCity() {
 
   return (
     <div className="current-city-page">
-      <button className="back-btn" onClick={() => navigate("/")}>
+      <button
+        className="back-btn"
+        onClick={() => navigate("/react-weather-wise")}
+      >
         &lt;
       </button>
       {weatherData && !isLoading && (
@@ -74,7 +77,7 @@ function CurrentCity() {
         <div className="not-found">
           <div>404</div>
           <div>The given city cannot be found</div>
-          <button onClick={() => navigate("/")}>Back</button>
+          <button onClick={() => navigate("/react-weather-wise")}>Back</button>
         </div>
       )}
       {isLoading && <div className="loading">Loading...</div>}

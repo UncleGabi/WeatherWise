@@ -8,9 +8,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/add-city" element={<AddCity />} />
-        <Route path="/:city" element={<CurrentCity />} />
+        <Route path="/react-weather-wise" element={<Home />} />
+        <Route path="/react-weather-wise/add-city" element={<AddCity />} />
+        <Route path="/react-weather-wise/:city" element={<CurrentCity />} />
       </Routes>
     </>
   );

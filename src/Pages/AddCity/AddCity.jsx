@@ -37,7 +37,7 @@ function AddCity() {
   };
 
   const handleBackNavigation = () => {
-    navigate("/");
+    navigate("/react-weather-wise");
   };
 
   const renderMatches = (cities) =>
@@ -68,7 +68,7 @@ function AddCity() {
 
   const handleSave = async () => {
     await fetchWeatherData(selectedCity);
-    navigate("/");
+    navigate("/react-weather-wise");
   };
 
   return (

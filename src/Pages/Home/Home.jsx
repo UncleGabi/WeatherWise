@@ -35,7 +35,7 @@ function Home() {
   }, []);
 
   const handleClick = () => {
-    navigate("/add-city");
+    navigate("/react-weather-wise/add-city");
   };
 
   const renderSelectedCities = () => {
@@ -46,7 +46,7 @@ function Home() {
         <div
           key={city}
           className="list-item"
-          onClick={() => navigate(`/${cityName}`)}
+          onClick={() => navigate(`/react-weather-wise/${cityName}`)}
         >
           {city}
         </div>
