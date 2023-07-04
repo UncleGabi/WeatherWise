@@ -1,6 +1,6 @@
 {
-  "homepage": "https://unclegabi.github.io/weather-wise",
-  "name": "bene-weather",
+  "homepage": "https://unclegabi.github.io/react-weather-wise",
+  "name": "weather-wise",
   "private": true,
   "version": "0.0.0",
   "type": "module",
