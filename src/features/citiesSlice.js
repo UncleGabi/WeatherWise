@@ -6,7 +6,7 @@ export const saveWeatherData = createAsyncThunk(
   "cities/saveWeatherData",
   async (cityName, thunkAPI) => {
     try {
-      const url = "http://api.openweathermap.org/data/2.5/weather";
+      const url = "https://api.openweathermap.org/data/2.5/weather";
       const response = await axios.get(url, {
         params: {
           q: cityName,
@@ -20,7 +20,7 @@ export const saveWeatherData = createAsyncThunk(
       return {
         city: data.name,
         temperature: Math.round(data.main.temp),
-        icon: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+        icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
         timeZone: data.timezone,
         time: data.dt,
         sunrise: data.sys.sunrise,
