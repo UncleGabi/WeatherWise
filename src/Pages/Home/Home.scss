@@ -1,0 +1,24 @@
+.home-page {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #142534;
+  color: #6c8c9f;
+  font-size: 18px;
+  font-weight: bold;
+
+  .add {
+    background-color: transparent;
+    color: #02ff40;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .list-item {
+    cursor: pointer;
+  }
+}

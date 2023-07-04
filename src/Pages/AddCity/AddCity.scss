@@ -1,0 +1,63 @@
+.add-city-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #142534;
+
+  .back-btn {
+    position: absolute;
+    top: 10px;
+    left: 45%;
+    background-color: transparent;
+    color: #2474b0;
+    font-size: 20px;
+    border: none;
+  }
+
+  .search-box {
+    position: relative;
+    width: fit-content;
+    min-height: 150px;
+    padding-bottom: 70px;
+
+    input {
+      padding: 5px 0;
+      border: none;
+      border-bottom: 1px solid #2474b0;
+      background-color: transparent;
+      color: #6c8c9f;
+      font-size: 18px;
+      outline: none;
+    }
+
+    .down-caret {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      rotate: -90deg;
+      color: #bcc1c5;
+    }
+
+    .matches {
+      margin-top: 5px;
+
+      &-item {
+        color: #2474b0;
+        cursor: pointer;
+
+        .highlighted {
+          color: #6c8c9f;
+        }
+      }
+    }
+
+    .save-btn {
+      position: absolute;
+      left: 50%;
+      bottom: 5px;
+      transform: translateX(-50%);
+    }
+  }
+}

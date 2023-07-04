@@ -1,0 +1,91 @@
+.current-city-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #142534;
+
+  .back-btn {
+    position: absolute;
+    top: 10px;
+    left: 45%;
+    background-color: transparent;
+    color: #2474b0;
+    font-size: 20px;
+    border: none;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    color: #6c8c9f;
+    font-size: 24px;
+
+    .time {
+      position: relative;
+      color: #2474b0;
+      font-size: 30px;
+
+      div:last-child {
+        position: absolute;
+        top: 30px;
+      }
+    }
+
+    .city {
+      margin-top: 30px;
+      color: #6c8c9f;
+    }
+
+    .description {
+      margin-bottom: 15px;
+      font-size: 10px;
+    }
+
+    .weather-data {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        fill: #023773;
+      }
+
+      span {
+        margin-left: 5px;
+        color: #2d748e;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .loading {
+    font-size: 30px;
+    color: aliceblue;
+  }
+
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+
+    div:first-child {
+      font-size: 40px;
+    }
+
+    div:last-child {
+      font-size: 20px;
+    }
+
+    button {
+      height: 40px;
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+  }
+}
