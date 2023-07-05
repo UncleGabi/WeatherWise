@@ -16,9 +16,12 @@ function CurrentCity() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const cityName = location.pathname.split("/")[2];
+  const cityName = location.pathname.split("/")[2].replaceAll("+", " ");
   const weatherData = useSelector(selectCurrentCity(cityName));
   const { isLoading } = useSelector(selectAllData);
+
+  console.log("cityName", cityName);
+  console.log("weatherData", weatherData);
 
   const [currentTime, setCurrentTime] = useState(weatherData?.time || 0);
 
