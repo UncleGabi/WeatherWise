@@ -1,28 +1,46 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { capitals } from "../../assets/capitals";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCityNames, saveWeatherData } from "../../features/citiesSlice";
+import axios from "axios";
+import { fetchWeatherData } from "../../features/thunkFunctions";
+import {
+  addCapitals,
+  selectAllCapitals,
+  selectCityNames,
+} from "../../features/citiesSlice";
 
 import "./AddCity.scss";
+import FilteredCapitals from "../../components/FilteredCapitals/FilteredCapitals";
 
 function AddCity() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const existingCityNames = useSelector(selectCityNames);
+  const capitals = location.state?.allCapitals || useSelector(selectAllCapitals);
+
   const [searchValue, setSearchValue] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
 
   const isAddedCity = useRef(false);
 
-  const searchedCities = capitals.filter((capital) => {
+  const searchedCities = capitals?.filter((capital) => {
     const regex = new RegExp(`${searchValue}`, "gi");
     return capital.match(regex) && !existingCityNames.includes(capital);
   });
 
   useEffect(() => {
-    if (searchedCities.length > 1) {
+    if (!capitals.length) {
+      fetchCapitals();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (searchedCities?.length > 1) {
       setSelectedCity("");
     }
   }, [searchedCities]);
@@ -32,42 +50,21 @@ function AddCity() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
 
-  const fetchWeatherData = async (cityName) => {
-    return await dispatch(saveWeatherData(cityName)).unwrap();
+  const fetchCapitals = async () => {
+    const { data } = await axios.get("http://localhost:8000/capitals");
+    await dispatch(addCapitals(data));
+  };
+
+  const saveWeatherData = async (cityName) => {
+    return await dispatch(fetchWeatherData(cityName)).unwrap();
   };
 
   const handleBackNavigation = () => {
     navigate("/react-weather-wise");
   };
 
-  const renderMatches = (cities) =>
-    cities.slice(0, 8).map((city, index) => {
-      const cityChars = city.split("");
-      const highlightedChars = cityChars.map((char, i) => {
-        const isMatch = searchValue?.toLowerCase().includes(char.toLowerCase());
-        return (
-          <span key={i} className={isMatch ? "highlighted" : ""}>
-            {char}
-          </span>
-        );
-      });
-
-      return (
-        <div
-          key={index}
-          className="matches-item"
-          onClick={() => {
-            setSearchValue(city);
-            setSelectedCity(city);
-          }}
-        >
-          {highlightedChars}
-        </div>
-      );
-    });
-
   const handleSave = async () => {
-    await fetchWeatherData(selectedCity);
+    await saveWeatherData(selectedCity);
     navigate("/react-weather-wise");
   };
 
@@ -81,11 +78,17 @@ function AddCity() {
           type="text"
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}
+          placeholder="Enter city..."
           autoFocus
         />
         <span className="down-caret">&lt;</span>
         {searchValue && (
-          <div className="matches">{renderMatches(searchedCities)}</div>
+          <FilteredCapitals
+            searchedCities={searchedCities}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            setSelectedCity={setSelectedCity}
+          />
         )}
         {selectedCity && (
           <button className="save-btn" onClick={handleSave}>

@@ -1,0 +1,17 @@
+.selected-cities-list {
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    cursor: pointer;
+
+    svg {
+      fill: #6c8c9f;
+
+      &:hover {
+        fill: red;
+      }
+    }
+  }
+}

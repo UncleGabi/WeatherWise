@@ -1,0 +1,69 @@
+dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: min(420px, 90vw);
+  margin: auto;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  animation: slide 500ms;
+
+  @keyframes slide {
+    from {
+      opacity: 0;
+      translate: 0 2em;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  &::backdrop {
+    background-color: rgba($color: #000000, $alpha: 0.3);
+  }
+
+  .remove-icon {
+    fill: crimson;
+    font-size: 80px;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .content {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .buttons {
+    display: flex;
+
+    button {
+      border: none;
+      color: white;
+      transition: box-shadow 300ms, outline-offset 300ms;
+      outline: none;
+
+      &:active {
+        box-shadow: none;
+      }
+    }
+
+    .cancel {
+      margin-right: 25px;
+      background-color: #c1c1c1;
+      box-shadow: 0 2px 3px rgba($color: #000000, $alpha: 0.4);
+    }
+
+    .delete {
+      background-color: #ff225d;
+      box-shadow: 0 2px 3px rgba($color: #000000, $alpha: 0.6);
+    }
+  }
+}

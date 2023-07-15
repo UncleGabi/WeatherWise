@@ -3,13 +3,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { WiThermometer, WiSunrise, WiSunset } from "weather-icons-react";
-import {
-  saveWeatherData,
-  selectAllData,
-  selectCurrentCity,
-} from "../../features/citiesSlice";
+import { selectAllData } from "../../features/citiesSlice";
 
 import "./CurrentCity.scss";
+import { fetchWeatherData } from "../../features/thunkFunctions";
 
 function CurrentCity() {
   const dispatch = useDispatch();
@@ -17,16 +14,13 @@ function CurrentCity() {
   const location = useLocation();
 
   const cityName = location.pathname.split("/")[2].replaceAll("+", " ");
-  const weatherData = useSelector(selectCurrentCity(cityName));
   const { isLoading } = useSelector(selectAllData);
-
-  console.log("cityName", cityName);
-  console.log("weatherData", weatherData);
-
-  const [currentTime, setCurrentTime] = useState(weatherData?.time || 0);
+  
+  const [currentWeatherData, setCurrentWeatherData] = useState({});
+  const [currentTime, setCurrentTime] = useState(currentWeatherData?.time || 0);
 
   useEffect(() => {
-    fetchWeatherData();
+    saveWeatherData();
 
     const timeInterval = setInterval(
       () => setCurrentTime((currTime) => currTime + 30),
@@ -37,13 +31,17 @@ function CurrentCity() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchWeatherData = async () => {
-    const currentData = await dispatch(saveWeatherData(cityName)).unwrap();
+  const saveWeatherData = async () => {
+    const currentData = await dispatch(fetchWeatherData(cityName)).unwrap();
+    setCurrentWeatherData(currentData);
     setCurrentTime(currentData?.time);
   };
 
   const convertTime = (time) =>
-    moment.utc(time, "X").add(weatherData?.timeZone, "seconds").format("HH:mm");
+    moment
+      .utc(time, "X")
+      .add(currentWeatherData?.timeZone, "seconds")
+      .format("HH:mm");
 
   return (
     <div className="current-city-page">
@@ -53,30 +51,30 @@ function CurrentCity() {
       >
         &lt;
       </button>
-      {weatherData && !isLoading && (
+      {currentWeatherData && !isLoading && (
         <div className="content">
           <div className="time">
             <div>{convertTime(currentTime).split(":")[0]}</div>
             <div>{convertTime(currentTime).split(":")[1]}</div>
           </div>
-          <div className="city">{weatherData?.city}</div>
-          <img src={weatherData?.icon} alt={weatherData?.desc} />
-          <div className="description">{weatherData?.description}</div>
+          <div className="city">{currentWeatherData?.city}</div>
+          <img src={currentWeatherData?.icon} alt={currentWeatherData?.desc} />
+          <div className="description">{currentWeatherData?.description}</div>
           <div className="weather-data">
             <WiThermometer className="icon" size={30} />
-            <span>{weatherData?.temperature} °C</span>
+            <span>{currentWeatherData?.temperature} °C</span>
           </div>
           <div className="weather-data">
             <WiSunrise className="icon" size={30} />
-            <span>{convertTime(weatherData?.sunrise)}</span>
+            <span>{convertTime(currentWeatherData?.sunrise)}</span>
           </div>
           <div className="weather-data">
             <WiSunset className="icon" size={30} />
-            <span>{convertTime(weatherData?.sunset)}</span>
+            <span>{convertTime(currentWeatherData?.sunset)}</span>
           </div>
         </div>
       )}
-      {!weatherData && !isLoading && (
+      {!currentWeatherData && (
         <div className="not-found">
           <div>404</div>
           <div>The given city cannot be found</div>
