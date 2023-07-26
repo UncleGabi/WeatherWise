@@ -3,13 +3,14 @@ const {
   addWeatherData,
   getCityWeatherData,
   deleteWeatherdata,
-} = require("../../models/weatherData");
+} = require("../../models/weatherData.model");
 
-function httpGetAllData(_req, res) {
-  return res.status(200).json(getAllWeatherData());
+async function httpGetAllData(_req, res) {
+  const weatherData = await getAllWeatherData();
+  return res.status(200).json(weatherData);
 }
 
-function httpAddNewWeatherData(req, res) {
+async function httpAddNewWeatherData(req, res) {
   const weatherData = req.body;
 
   const missingProps = [
@@ -37,15 +38,15 @@ function httpAddNewWeatherData(req, res) {
     });
   }
 
-  addWeatherData(weatherData);
+  await addWeatherData(weatherData);
   return res.status(201).json(weatherData);
 }
 
-function httpDeleteWeatherData(req, res) {
+async function httpDeleteWeatherData(req, res) {
   const { city } = req.params;
   const deletedWeatherData = getCityWeatherData(city);
 
-  deleteWeatherdata(city);
+  await deleteWeatherdata(city);
   return res.status(200).json(deletedWeatherData);
 }
 

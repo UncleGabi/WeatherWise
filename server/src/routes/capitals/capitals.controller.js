@@ -1,17 +1,18 @@
-const { getCapitals, addCapitals } = require("../../models/capitals");
+const { getCapitals, addCapitals } = require("../../models/capitals.model");
 
-function httpGetCapitals(_req, res) {
-  return res.status(200).json(getCapitals());
+async function httpGetCapitals(_req, res) {
+  const allCapitals = await getCapitals();
+  return res.status(200).json(allCapitals);
 }
 
-function httpAddCapitals(req, res) {
+async function httpAddCapitals(req, res) {
   const capitals = req.body;
 
   if (!capitals.length) {
     return res.status(400).json({ error: "No capitals are given." });
   }
 
-  addCapitals(capitals);
+  await addCapitals(capitals);
   return res.status(201).json(capitals);
 }
 

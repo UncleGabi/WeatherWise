@@ -20,7 +20,8 @@ function AddCity() {
   const location = useLocation();
 
   const existingCityNames = useSelector(selectCityNames);
-  const capitals = location.state?.allCapitals || useSelector(selectAllCapitals);
+  const capitals =
+    location.state?.allCapitals || useSelector(selectAllCapitals);
 
   const [searchValue, setSearchValue] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
