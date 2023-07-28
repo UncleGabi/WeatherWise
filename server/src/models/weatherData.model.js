@@ -1,5 +1,4 @@
 const weatherData = require("./weatherData.mongo");
-// const weatherData = new Map();
 
 async function getAllWeatherData() {
   return await weatherData.find(
@@ -9,13 +8,10 @@ async function getAllWeatherData() {
       __v: 0,
     }
   );
-  // return [...weatherData.values()];
 }
 
 async function getCityWeatherData(cityName) {
   return await weatherData.findOne({ city: cityName });
-  // const cityData = weatherData.get(cityName);
-  // return cityData;
 }
 
 async function addWeatherData(data) {
@@ -24,12 +20,10 @@ async function addWeatherData(data) {
     { ...data },
     { upsert: true }
   );
-  // weatherData.set(data.city, data);
 }
 
 async function deleteWeatherdata(city) {
   await weatherData.deleteOne({ city });
-  // weatherData.delete(city);
 }
 
 module.exports = {

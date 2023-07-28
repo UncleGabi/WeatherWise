@@ -30,7 +30,7 @@ function AddCity() {
 
   const searchedCities = capitals?.filter((capital) => {
     const regex = new RegExp(`${searchValue}`, "gi");
-    return capital.match(regex) && !existingCityNames.includes(capital);
+    return capital?.match(regex) && !existingCityNames.includes(capital);
   });
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function AddCity() {
 
   const fetchCapitals = async () => {
     const { data } = await axios.get("http://localhost:8000/capitals");
-    await dispatch(addCapitals(data));
+    await dispatch(addCapitals(data[0].capitals));
   };
 
   const saveWeatherData = async (cityName) => {

@@ -1,3 +1,4 @@
+const axios = require("axios");
 const capitals = require("./capitals.mongo");
 
 async function getCapitals() {
@@ -10,22 +11,24 @@ async function getCapitals() {
   );
 }
 
-async function addCapitals(fetchedCapitals) {
-  await capitals.updateOne(
-    {},
-    { capitals: fetchedCapitals },
-    { upsert: true },
-    (err) => {
-      if (err) {
-        console.error(`Capitals could not be saved ${err}`);
-      } else {
-        console.log("Capitals saved successfully.");
-      }
-    }
-  );
+async function fetchCapitals() {
+  const savedCapitals = await capitals.find({});
+
+  if (savedCapitals.length) {
+    console.log("Capital data are already loaded!");
+  } else {
+    const { data } = await axios.get("https://restcountries.com/v3.1/all");
+    const fetchedCapitals = data.flatMap((item) => item.capital);
+
+    await capitals.updateOne(
+      {},
+      { capitals: fetchedCapitals },
+      { upsert: true }
+    );
+  }
 }
 
 module.exports = {
   getCapitals,
-  addCapitals,
+  fetchCapitals,
 };

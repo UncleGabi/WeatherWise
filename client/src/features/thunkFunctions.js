@@ -41,20 +41,8 @@ export const fetchCapitals = createAsyncThunk(
   "cities/fetchCapitals",
   async (thunkAPI) => {
     try {
-      const { data } = await axios.get("https://restcountries.com/v3.1/all");
-      const capitals = data.reduce((acc, curr) => {
-        const capital = curr.capital?.[0];
-
-        if (capital) {
-          acc.push(capital);
-        }
-
-        return acc;
-      }, []);
-
-      await axios.post("http://localhost:8000/capitals", capitals);
-
-      return capitals;
+      const { data } = await axios.get("http://localhost:8000/capitals");
+      return data[0].capitals;
     } catch (error) {
       thunkAPI.rejectWithValue({ error: error.message });
     }
